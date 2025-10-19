@@ -4,11 +4,12 @@ const getTokenFromHeader = req => {
 
     const token = headerObj['authorization'].split(" ")[1];
 
-    if(token !== undefined) {
-        return token;
-    } else {
-        return false;
-    }
+    // if(token !== undefined) {
+    //     return token;
+    // } else {
+    //     return false;
+    // }
+   return token ?  token : false;
 };
 
 module.exports = getTokenFromHeader;

@@ -1,17 +1,25 @@
 const getTokenFromHeader = require("../utils/getTokenFromHeader");
+const verifyToken = require("../utils/verifyToken");
 
 const isLogin = (req, res, next)=>{
-    //get token from header
+    
+//get token from header
 const token = getTokenFromHeader(req);
-    if(!token){
+
+//veriy the token
+const decodedUser = verifyToken(token);
+// console.log("token" , decodedUser);
+
+ //save the user into req obj
+req.userAuth = decodedUser.id;  
+    
+    if(!decodedUser){
         return res.json({
-            message: "There is no token attached to the header!"
+            message: "Invalid/Expired token, please do login again!"
         });
     } else {
         next();
     }
-    //veriy the token
-    //save the user into req obj
 };
 
 module.exports = isLogin;
