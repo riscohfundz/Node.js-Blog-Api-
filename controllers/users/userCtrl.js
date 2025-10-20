@@ -2,6 +2,7 @@
 const bcrypt = require("bcryptjs");
 const User = require("../../model/User/User");
 const generateToken = require("../../utils/generateToken");
+const appErr = require("../../utils/appErr");
 
 //Register
 const userRegisterCtrl = async (req, res, next) => {
@@ -11,7 +12,7 @@ const userRegisterCtrl = async (req, res, next) => {
         // check for email
         const userFound = await User.findOne({ email });
         if (userFound) {
-            return next(new Error ("User Already Exist!"))
+            return next(appErr("User Already Exist!", 500))
         }
         // hash password
     const salt = await bcrypt.genSalt(10);
@@ -28,7 +29,7 @@ const userRegisterCtrl = async (req, res, next) => {
             data: user,
         });
     } catch (error) {
-        next(new Error(error.message));
+        next(appErr(error.message));
 
     }
 };

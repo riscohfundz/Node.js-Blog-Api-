@@ -1,3 +1,4 @@
+const appErr = require("../utils/appErr");
 const getTokenFromHeader = require("../utils/getTokenFromHeader");
 const verifyToken = require("../utils/verifyToken");
 
@@ -14,9 +15,7 @@ const decodedUser = verifyToken(token);
 req.userAuth = decodedUser.id;  
     
     if(!decodedUser){
-        return res.json({
-            message: "Invalid/Expired token, please do login again!"
-        });
+        return next(appErr("Invalid/Expired token, please do login again!", 500))
     } else {
         next();
     }
