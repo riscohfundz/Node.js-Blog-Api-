@@ -22,14 +22,23 @@ app.use("/api/v1/users/", userRoutes);
 app.use("/api/v1/posts", postRouter);
 
 //comments route
-app.use("/api/v1/comments", commentRouter)
+app.use("/api/v1/comments", commentRouter);
 
 //categories route
-app.use("/api/v1/categories", categoryRouter)
+app.use("/api/v1/categories", categoryRouter);
 
 
 //Error handles middleware
 app.use(globalErrHandler);
+
+// 404 Not found handler 
+app.use('*', (req, res) => {
+    console.log(req.originalUrl);
+    
+    res.status(404).json({
+        message: `${req.originalUrl} - Route Not Found! `
+    })
+});
 
 //listen to server
 
